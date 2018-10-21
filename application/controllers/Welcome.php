@@ -5,10 +5,15 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		include_once APPPATH . "libraries/google-api-php-client-2.2.2/vendor/autoload.php";
 		
 		if($this->checkOauthCredentials())
 		{
+			include_once APPPATH . "libraries/google-api-php-client-2.2.2/vendor/autoload.php";
+			
+			
+			
+			
+			
 			$this->load->view('welcome_message');
 		}
 		else
