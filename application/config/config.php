@@ -521,16 +521,3 @@ $config['rewrite_short_tags'] = FALSE;
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
-
-/*
-|--------------------------------------------------------------------------
-| Google OAuth2 credentials
-|--------------------------------------------------------------------------
-|
-| Create your google OAuth credentials at https://developers.google.com/console
-| Fill in the config variable with your client id, client secret, redirect uri and api key.
-*/
-$config["google_client_id"] = '';
-$config["google_client_secret"] = '';
-$config["google_redirect_uri"] = '';
-$config["google_api_key"] = '';
