@@ -55,3 +55,5 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['google_login'] = 'welcome/google_login';
 $route['google_auth'] = 'welcome/google_auth';
+$route['profile'] = 'profile';
+$route['logout'] = 'welcome/logout';

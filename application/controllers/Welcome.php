@@ -7,35 +7,24 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view("Header");
-		$this->load->view("LoginForm");
-		$this->load->view("Footer");
+		if($this->session->userdata('logged_in'))
+			header('Location: ' . filter_var($this->config->base_url()."profile", FILTER_SANITIZE_URL));
+		else
+		{	
+			$this->load->view("Header");
+			$this->load->view("LoginForm");
+			$this->load->view("Footer");
+		}
 	}
 	
 	function google_login()
 	{
-		if($this->checkOauthCredentials() && file_exists($this->credentials_file))
+		if($this->session->userdata('logged_in'))
+			header('Location: ' . filter_var($this->config->base_url()."profile", FILTER_SANITIZE_URL));
+		else if($this->checkOauthCredentials() && file_exists($this->credentials_file))
 		{
-			require_once APPPATH . "libraries/google-api-php-client-2.2.2/vendor/autoload.php";
-			
-			session_start();
-
-			$client = new Google_Client();
-			$client->setAuthConfig($this->credentials_file);
-			$client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
-
-			if (isset($_SESSION['access_token']) && $_SESSION['access_token']) 
-			{
-			  $client->setAccessToken($_SESSION['access_token']);
-			  $drive = new Google_Service_Drive($client);
-			  $files = $drive->files->listFiles(array())->getItems();
-			  echo json_encode($files);
-			} 
-			else 
-			{
-			  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth';
-			  header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
-			}	
+		  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth';
+		  header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 		}
 		else
 			die();
@@ -62,13 +51,11 @@ class Welcome extends CI_Controller {
 		{
 			require_once APPPATH . "libraries/google-api-php-client-2.2.2/vendor/autoload.php";
 
-			session_start();
-
-			$client = new Google_Client();
-					
+			$client = new Google_Client();	
 			$client->setAuthConfigFile($this->credentials_file);
+			$client->addScope("https://www.googleapis.com/auth/userinfo.email");
+			$client->addScope("https://www.googleapis.com/auth/userinfo.profile");
 			$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth');
-			$client->addScope(Google_Service_Drive::DRIVE_METADATA_READONLY);
 
 			if (! isset($_GET['code'])) 
 			{
@@ -77,13 +64,47 @@ class Welcome extends CI_Controller {
 			} 
 			else 
 			{
-			  $client->authenticate($_GET['code']);
-			  $_SESSION['access_token'] = $client->getAccessToken();
-			  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth';
-			  header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+				$client->authenticate($_GET['code']);
+				$_SESSION['access_token'] = $client->getAccessToken();
+			  
+				if ($client->getAccessToken()) 
+				{
+					$objOAuthService = new Google_Service_Oauth2($client);
+					$userData = $objOAuthService->userinfo->get();
+					$_SESSION['access_token'] = $client->getAccessToken();
+					if(isset($userData->name) && isset($userData->email) & strlen($userData->name)>0 && strlen($userData->email)>0)
+					{
+						$picture = "";
+						if(isset($userData->picture) && filter_var($userData->picture, FILTER_VALIDATE_URL))
+							$picture = $userData->picture;
+							
+						$newdata = array(
+							'name'  => $userData->name,
+							'email'     => $userData->email,
+							'profilePic' => $picture,
+							'logged_in' => TRUE
+						);
+
+						$this->session->set_userdata($newdata);
+						$this->index();
+					}
+				} 
+				else 
+				{
+					$authUrl = $client->createAuthUrl();
+					$data['authUrl'] = $authUrl;
+					$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth';
+					header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+				}
 			}
 		}			
 		else
 			die();
+	}
+	
+	function logout()
+	{
+		$this->session->sess_destroy();
+		header('Location: ' . filter_var($this->config->base_url(), FILTER_SANITIZE_URL));
 	}
 }
