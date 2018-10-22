@@ -53,4 +53,5 @@ $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['google_login'] = 'welcome/google_login';
 $route['google_auth'] = 'welcome/google_auth';

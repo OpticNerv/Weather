@@ -7,6 +7,13 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
+		$this->load->view("Header");
+		$this->load->view("LoginForm");
+		$this->load->view("Footer");
+	}
+	
+	function google_login()
+	{
 		if($this->checkOauthCredentials() && file_exists($this->credentials_file))
 		{
 			require_once APPPATH . "libraries/google-api-php-client-2.2.2/vendor/autoload.php";
@@ -32,9 +39,8 @@ class Welcome extends CI_Controller {
 		}
 		else
 			die();
+		
 	}
-	
-	
 	
 	function checkOauthCredentials()
 	{
