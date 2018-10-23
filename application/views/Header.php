@@ -28,7 +28,7 @@
         <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php if(filter_var($this->session->userdata('profile_pic'), FILTER_VALIDATE_URL)) echo '<img src="'.$this->session->userdata('profile_pic').'" style="height:40px;width:40px;border-radius:20px;" />'; else echo $this->lang->line("menu_profile");?>
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
-			<li><a href="<?php echo $this->config->base_url();?>profile"><?php echo $this->lang->line("menu_profile");?></a></li>
+			<li><a href="<?php echo $this->config->base_url(); if($this->session->userdata("is_superuser")) echo "admin"; else echo "profile";?>"><?php echo $this->lang->line("menu_profile");?></a></li>
           <li><a href="<?php echo $this->config->base_url();?>logout"><?php echo $this->lang->line("menu_logout");?></a></li>
         </ul>
     </li>

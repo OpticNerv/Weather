@@ -160,5 +160,18 @@ class Users extends CI_Model
 		else
 			return false;
 	}
+	
+	/**
+	* PHP Function getAllUsers,	returns all users for admin panel, sorted by registration date and activity.
+	* @name: getAllUsers
+	**/
+	function getAllUsers()
+	{
+		$query = $this->db->query("SELECT * FROM users ORDER BY reg_time DESC, is_active DESC");
+		if($query->num_rows()>0)
+			return $query->result();
+		else
+			return false;
+	}
 }
 ?>

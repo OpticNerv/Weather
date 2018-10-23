@@ -60,4 +60,4 @@ $route['show_registration_form'] = 'welcome/show_registration_form';
 $route['register_user'] = 'welcome/register_user';
 
 $route['profile'] = 'profile';
-$route['adminpanel'] = 'adminpanel';
+$route['adminpanel'] = 'admin';
