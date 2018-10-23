@@ -1,3 +1,4 @@
+<?php $this->load->view("Header"); ?>
 <div class="container">
 
 <div class="col-sm-6 col-sm-offset-3">
@@ -10,10 +11,12 @@
 	<?php } ?>
 
 	<!-- LOGIN FORM -->
-	<form action="/login" method="post">
+	<form action="<?php echo $this->config->base_url();?>register_user" method="post">
 		<div class="form-group">
-		<p style="text-align:center;"><br /><a href="<?php echo $this->config->base_url();?>google_login" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a></p>
+		<input type="checkbox" value=1 name="consent" /> Agree to our super terms!
+		<input type="submit" value="We are great!"/>
 		</div>
 	</form>
 	<hr>
 </div>
+<?php $this->load->view("Footer"); ?>

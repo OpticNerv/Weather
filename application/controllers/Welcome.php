@@ -67,7 +67,7 @@ class Welcome extends CI_Controller {
 				$client->authenticate($_GET['code']);
 				$_SESSION['access_token'] = $client->getAccessToken();
 			  
-				if ($client->getAccessToken()) 
+				if($client->getAccessToken()) 
 				{
 					$objOAuthService = new Google_Service_Oauth2($client);
 					$userData = $objOAuthService->userinfo->get();
@@ -81,12 +81,26 @@ class Welcome extends CI_Controller {
 						$newdata = array(
 							'name'  => $userData->name,
 							'email'     => $userData->email,
-							'profilePic' => $picture,
-							'logged_in' => TRUE
+							'profile_pic' => $picture,
+							'logged_in' => FALSE
 						);
-
 						$this->session->set_userdata($newdata);
-						$this->index();
+
+						$this->load->model('Users');
+						$Users = new Users();
+						
+						$userData = $Users->getUser($this->session->userdata('email'));
+						if($userData && (bool)$userData->is_active)
+						{
+							//update his current session data
+							$currentSession = $this->session->userdata();
+							$currentSession['logged_in'] = true;
+							$currentSession['is_superuser'] = (bool)$userData->is_superuser;
+							$this->session->set_userdata($currentSession);
+							$this->redirect_to_profile();
+						}
+						else
+							header('Location: ' . filter_var($this->config->base_url()."show_registration_form", FILTER_SANITIZE_URL));
 					}
 				} 
 				else 
@@ -100,6 +114,88 @@ class Welcome extends CI_Controller {
 		}			
 		else
 			die();
+	}
+	
+	function show_registration_form()
+	{
+		if($this->session->userdata('logged_in'))
+			$this->redirect_to_profile();
+		else if($this->session->userdata('name') && $this->session->userdata('email'))
+		{
+			$this->load->model('Users');
+			$Users = new Users();
+			$userData = $Users->getUser($this->session->userdata('email'));
+			if(!$userData)
+				$this->load->view('RegistrationForm',array('name' => $this->session->userdata('name'), 'email' => $this->session->userdata('email'), 'profile_pic' => $this->session->userdata('profile_pic')));
+			else if((bool)$userData->is_active)
+			{
+				//update his current session data
+				$currentSession = $this->session->userdata();
+				$currentSession['logged_in'] = true;
+				$currentSession['is_superuser'] = (bool)$userData->is_superuser;
+				$this->session->set_userdata($currentSession);
+				$this->redirect_to_profile();
+			}
+			else //deactivated user
+				$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_deactivatedAcc')));
+		}
+	}
+	
+	function register_user()
+	{
+		$this->load->model('Users');
+		$Users = new Users();
+	
+		if($this->session->userdata('logged_in')) //user is already logged in
+			$this->redirect_to_profile();
+		else if($this->session->userdata('email') && $this->session->userdata('name')) //user is not yet logged in to our application
+		{
+		
+			if(isset($_POST['consent']) && intval($_POST['consent'])>0)
+			{
+				$userData = $Users->getUser($this->session->userdata('email'));
+				if(!$userData)
+				{
+					if($Users->registerUser($this->session->userdata('name'),$this->session->userdata('email'),$this->session->userdata('profile_pic')))
+					{
+						$userData = $Users->getUser($this->session->userdata('email'));
+						
+						//update his current session data
+						$currentSession = $this->session->userdata();
+						$currentSession['logged_in'] = true;
+						$currentSession['is_superuser'] = (bool)$userData->is_superuser;
+						$this->session->set_userdata($currentSession);
+						$this->redirect_to_profile();
+					}
+					else
+						$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_error')));
+				}
+				else if((bool)$userData->is_active)
+				{
+					//update his current session data
+					$currentSession = $this->session->userdata();
+					$currentSession['logged_in'] = true;
+					$currentSession['is_superuser'] = (bool)$userData->is_superuser;
+					$this->session->set_userdata($currentSession);
+					$this->redirect_to_profile();
+					
+				}
+				else //deactivated user
+					$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_deactivatedAcc')));
+			}
+			else //didn`t agree to registration terms
+					$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_agreeToTerms')));
+		}
+		else //missing google session data
+			$this->google_login();
+	}
+	
+	function redirect_to_profile()
+	{
+		if($this->session->userdata('is_superuser'))
+			header('Location: ' . filter_var($this->config->base_url()."adminpanel", FILTER_SANITIZE_URL));
+		else
+			header('Location: ' . filter_var($this->config->base_url()."profile", FILTER_SANITIZE_URL));
 	}
 	
 	function logout()

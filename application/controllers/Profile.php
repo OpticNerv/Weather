@@ -9,13 +9,22 @@ class Profile extends CI_Controller {
 	{
 		if($this->session->userdata('logged_in'))
 		{
-			echo "Welcome ".$this->session->userdata("name")."!";
+			$this->load->model("Users");
+			$Users = new Users(); 
 			
-			$seoData["seoTitle"] = $this->lang->line("userprofile_Title");
-			$seoData["seoDescription"] = $this->lang->line("userprofile_Description");
-			$this->load->view("Header",$seoData);
-			$this->load->view("userprofile/Userpanel");
-			$this->load->view("Footer");	
+			$userData = $Users->getUser($this->session->userdata('email'));
+			if($userData && (bool)$userData->is_active)
+			{
+				echo "Welcome ".$this->session->userdata("name")."!";
+				
+				$seoData["seoTitle"] = $this->lang->line("userprofile_Title");
+				$seoData["seoDescription"] = $this->lang->line("userprofile_Description");
+				$this->load->view("Header",$seoData);
+				$this->load->view("userprofile/Userpanel");
+				$this->load->view("Footer");	
+			}
+			else
+				header('Location: ' . filter_var($this->config->base_url()."logout", FILTER_SANITIZE_URL));
 		}
 		else
 		{	
