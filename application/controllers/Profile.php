@@ -15,8 +15,6 @@ class Profile extends CI_Controller {
 			$userData = $Users->getUser($this->session->userdata('email'));
 			if($userData && (bool)$userData->is_active)
 			{
-				echo "Welcome ".$this->session->userdata("name")."!";
-				
 				$seoData["seoTitle"] = $this->lang->line("userprofile_Title");
 				$seoData["seoDescription"] = $this->lang->line("userprofile_Description");
 				$this->load->view("Header",$seoData);
