@@ -14,8 +14,7 @@ CREATE TABLE IF NOT EXISTS `user_cities`
 (
 	user_id INTEGER NOT NULL,
 	city_id INTEGER NOT NULL,
-	KEY (user_id),
-	KEY (city_id)
+	UNIQUE KEY (user_id, city_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `cities` 

@@ -94,7 +94,42 @@ class Users extends CI_Model
 	{
 		if($userId>0 && is_array($cities) && count($cities)>0)
 		{
+			$insertSQL = [];
+			foreach($cities as $cit)
+				$insertSQL[] = "($userId,".$this->db->escape($cit).")";
 		
+			if(count($insertSQL)>0)
+			{
+				$this->db->query("INSERT IGNORE INTO user_cities VALUES".join(",",$insertSQL));
+				if($this->db->affected_rows()>0)
+					return true;
+				else
+					return false;
+			}
+			else
+				return false;
+		}
+		else
+			return false;
+	}
+	
+	/**
+	* PHP Function getUserCities, returns all users cities.
+	* @name: getUserCities
+	**/
+	function getUserCities($userId)
+	{
+		if($userId>0)
+		{
+			$query = $this->db->query("SELECT cities.* 
+			FROM cities
+			INNER JOIN user_cities
+			ON user_cities.user_id=$userId AND user_cities.city_id=cities.id");
+			
+			if($query->num_rows()>0)
+				return $query->result();
+			else
+				return false;
 		}
 		else
 			return false;
@@ -168,6 +203,20 @@ class Users extends CI_Model
 	function getAllUsers()
 	{
 		$query = $this->db->query("SELECT * FROM users ORDER BY reg_time DESC, is_active DESC");
+		if($query->num_rows()>0)
+			return $query->result();
+		else
+			return false;
+	}
+	
+	
+	/**
+	* PHP Function getAllCities, returns all cities viable for weather search, sorted in ascended order.
+	* @name: getAllCities
+	**/
+	function getAllCities()
+	{
+		$query = $this->db->query("SELECT * FROM cities ORDER BY city_name ASC");
 		if($query->num_rows()>0)
 			return $query->result();
 		else
