@@ -21,9 +21,8 @@ CREATE TABLE IF NOT EXISTS `cities`
 (
 	id INTEGER NOT NULL AUTO_INCREMENT,
 	city_name VARCHAR(255),
+	country_name VARCHAR(5),
 	lat DOUBLE,
 	lng DOUBLE,
-	openweather_id INT NOT NULL,
-	PRIMARY KEY (id),
-	KEY (openweather_id)
+	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

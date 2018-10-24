@@ -124,7 +124,8 @@ class Users extends CI_Model
 			$query = $this->db->query("SELECT cities.* 
 			FROM cities
 			INNER JOIN user_cities
-			ON user_cities.user_id=$userId AND user_cities.city_id=cities.id");
+			ON user_cities.user_id=$userId AND user_cities.city_id=cities.id
+			WHERE cities.country_name='SI'");
 			
 			if($query->num_rows()>0)
 				return $query->result();
@@ -216,7 +217,7 @@ class Users extends CI_Model
 	**/
 	function getAllCities()
 	{
-		$query = $this->db->query("SELECT * FROM cities ORDER BY city_name ASC");
+		$query = $this->db->query("SELECT * FROM cities WHERE cities.country_name='SI' ORDER BY city_name ASC");
 		if($query->num_rows()>0)
 			return $query->result();
 		else
