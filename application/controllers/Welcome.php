@@ -72,7 +72,7 @@ class Welcome extends CI_Controller {
 					$objOAuthService = new Google_Service_Oauth2($client);
 					$userData = $objOAuthService->userinfo->get();
 					$_SESSION['access_token'] = $client->getAccessToken();
-					if(isset($userData->name) && isset($userData->email) & strlen($userData->name)>0 && strlen($userData->email)>0)
+					if(isset($userData->name) && isset($userData->email) && strlen($userData->name)>0 && filter_var($userData->email, FILTER_VALIDATE_EMAIL))
 					{
 						$picture = "";
 						if(isset($userData->picture) && filter_var($userData->picture, FILTER_VALIDATE_URL))

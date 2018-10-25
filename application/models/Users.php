@@ -209,19 +209,5 @@ class Users extends CI_Model
 		else
 			return false;
 	}
-	
-	
-	/**
-	* PHP Function getAllCities, returns all cities viable for weather search, sorted in ascended order.
-	* @name: getAllCities
-	**/
-	function getAllCities()
-	{
-		$query = $this->db->query("SELECT * FROM cities WHERE cities.country_name='SI' ORDER BY city_name ASC");
-		if($query->num_rows()>0)
-			return $query->result();
-		else
-			return false;
-	}
 }
 ?>

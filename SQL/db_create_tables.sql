@@ -20,9 +20,23 @@ CREATE TABLE IF NOT EXISTS `user_cities`
 CREATE TABLE IF NOT EXISTS `cities` 
 (
 	id INTEGER NOT NULL AUTO_INCREMENT,
-	city_name VARCHAR(255),
-	country_name VARCHAR(5),
-	lat DOUBLE,
-	lng DOUBLE,
+	city_name VARCHAR(255) NOT NULL,
+	country_name VARCHAR(5) NOT NULL,
+	lat DOUBLE NOT NULL,
+	lng DOUBLE NOT NULL,
 	PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE IF NOT EXISTS `cities_weather` 
+(
+	city_id INTEGER NOT NULL,
+	insert_time DATETIME NOT NULL,
+	current_temp FLOAT NOT NULL,
+	temp_min FLOAT NOT NULL,
+	temp_max FLOAT NOT NULL,
+	humidity FLOAT NOT NULL,
+	weather_speed FLOAT NOT NULL,
+	type TINYINT(1) NOT NULL,
+	KEY (city_id),
+	KEY (insert_time)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

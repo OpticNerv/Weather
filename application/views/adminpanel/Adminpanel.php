@@ -32,9 +32,9 @@ function getUserProfileData(userId)
 							$.each(result.allCities, function(key,value) {
 								user_view += '\r\n<li id="city-'+value.id+'" class="list-group-item">\r\n<div class="checkbox">\r\n<label><input id="cityCheckbox-'+value.id+'" type="checkbox" name="selectedCities[]" value="'+value.id+'">'+value.city_name+'</label>\r\n</div>\r\n</li>';
 							});
-							user_view += '\r\n<input class="btn btn-primary btn-lg" style="margin-top:10px;margin-right:10px;" type="submit" value="<?php echo $this->lang->line('save_changes');?>" />';
-							user_view +='<input class="btn btn-secondary btn-lg" style="margin-top:10px;" type="button" value="<?php echo $this->lang->line('cancel_changes');?>" onclick="clearUserDetails();" />';
 							user_view +='</ul>\r\n</form>';
+							user_view += '\r\n<input class="btn btn-primary btn-lg" style="margin-top:10px;margin-right:10px;" type="button" onclick="$(\'#updateUserForm\').submit();" value="<?php echo $this->lang->line('save_changes');?>" />';
+							user_view +='<input class="btn btn-secondary btn-lg" style="margin-top:10px;" type="button" value="<?php echo $this->lang->line('cancel_changes');?>" onclick="clearUserDetails();" />';
 						}
 						else
 							user_view = '<div class="alert alert-danger"><?php $this->lang->line('no_cities_error');?></div>';

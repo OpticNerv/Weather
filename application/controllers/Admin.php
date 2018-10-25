@@ -33,7 +33,9 @@ class Admin extends CI_Controller {
 			if(isset($_GET["userId"]) && intval($_GET["userId"])>0)
 			{
 				$this->load->model("Users");
+				$this->load->model("Cities");
 				$Users = new Users(); 
+				$Cities = new Cities();
 				
 				$userId = intval($_GET["userId"]);
 				$userData = $Users->getUser($userId);
@@ -42,7 +44,7 @@ class Admin extends CI_Controller {
 					$result->success = true;
 					$result->userData = $userData;
 					$result->userCities = $Users->getUserCities($userId);
-					$result->allCities = $Users->getAllCities();
+					$result->allCities = $Cities->getAllCities();
 				}
 				else
 					$result->message = $this->lang->line("user_not_found");
