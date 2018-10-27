@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS `users`
 	user_image TEXT,
 	is_superuser TINYINT(1) NOT NULL,
 	is_active TINYINT(1) NOT NULL,
-	reg_time DATETIME NOT NULL,
+	reg_time INT NOT NULL,
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `cities`
 CREATE TABLE IF NOT EXISTS `cities_weather` 
 (
 	city_id INTEGER NOT NULL,
-	insert_time DATETIME NOT NULL,
+	timestamp INT NOT NULL,
 	current_temp FLOAT NOT NULL,
 	temp_min FLOAT NOT NULL,
 	temp_max FLOAT NOT NULL,
@@ -38,5 +38,5 @@ CREATE TABLE IF NOT EXISTS `cities_weather`
 	weather_speed FLOAT NOT NULL,
 	type TINYINT(1) NOT NULL,
 	KEY (city_id),
-	KEY (insert_time)
+	KEY (timestamp)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

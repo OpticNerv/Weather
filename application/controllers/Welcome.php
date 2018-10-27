@@ -7,14 +7,15 @@ class Welcome extends CI_Controller {
 
 	public function index()
 	{
-		if($this->session->userdata('logged_in'))
-			header('Location: ' . filter_var($this->config->base_url()."profile", FILTER_SANITIZE_URL));
-		else
-		{	
-			$this->load->view("Header");
-			$this->load->view("LoginForm");
-			$this->load->view("Footer");
-		}
+		$this->load->model("Cities");
+		$Cities = new Cities();
+		
+		$extraScripts = array('<script src="'.$this->config->base_url().'js/Chart.bundle.js"></script>',
+		'<script src="'.$this->config->base_url().'js/utils.js"></script>','<script>var baseUrl="'.$this->config->base_url().'";</script>');
+		
+		$this->load->view("Header", array("extraScripts" => $extraScripts));
+		$this->load->view("StartPage",array("allCities" => $Cities->getAllCitiesWithWeatherData()));
+		$this->load->view("Footer");
 	}
 	
 	function google_login()
@@ -188,6 +189,18 @@ class Welcome extends CI_Controller {
 		}
 		else //missing google session data
 			$this->google_login();
+	}
+	
+	function showWeatherStats()
+	{
+		if(isset($_GET['cityId']) && intval($_GET['cityId'])>0)
+		{
+			$this->load->model($Cities);
+			$Cities ) new Cities();
+		
+		}
+		else
+			returnJSON(false,400);
 	}
 	
 	function redirect_to_profile()

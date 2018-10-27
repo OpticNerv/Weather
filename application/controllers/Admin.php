@@ -50,7 +50,7 @@ class Admin extends CI_Controller {
 					$result->message = $this->lang->line("user_not_found");
 			}
 
-			echo json_encode($result);
+			returnJSON($result);
 		}
 		else
 			die();
@@ -83,7 +83,7 @@ class Admin extends CI_Controller {
 					$result->message = $this->lang->line("user_not_found");
 			}
 
-			echo json_encode($result);
+			returnJSON($result);
 		}
 		else
 			die();

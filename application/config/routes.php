@@ -66,3 +66,6 @@ $route['adminpanel'] = 'admin';
 
 //sync
 $route['sync'] = 'sync/syncOWMP';
+
+//stats
+$route['showWeatherStats'] = 'welcome/showWeatherStats';

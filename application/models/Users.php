@@ -27,7 +27,7 @@ class Users extends CI_Model
 					
 				$user_image = $this->db->escape($user_image);	
 				
-				$this->db->query("INSERT INTO users VALUES(null,$email,$name,$user_image,$superuser,1,NOW())");
+				$this->db->query("INSERT INTO users VALUES(null,$email,$name,$user_image,$superuser,1,UNIX_TIMESTAMP(NOW()))");
 				if($this->db->affected_rows()>0)
 					return $this->db->insert_id();
 				else

@@ -39,6 +39,20 @@ class Cities extends CI_Model
 	}
 	
 	/**
+	* PHP Function getAllCitiesWithWeatherData, retrieves all cities with current weather data, used for front page.
+	* @name: getAllCitiesWithWeatherData
+	**/
+	function getAllCitiesWithWeatherData()
+	{
+		$query = $this->db->query("SELECT * FROM cities ORDER BY city_name ASC");
+		
+		if($query->num_rows()>0)
+			return $query->result();
+		else
+			return false;
+	}
+	
+	/**
 	* PHP Function storeWeatherForecast, stores weather forecast data - type 0 is current weather, type 1 is forecast.
 	* @name: storeWeatherForecast
 	**/
@@ -57,7 +71,7 @@ class Cities extends CI_Model
 			
 			foreach($weatherData->list as $weather)
 			{
-				$insertSQL .= "(".$this->db->escape($weather->sys->id).",NOW(),".$this->db->escape($weather->main->temp).","
+				$insertSQL .= "(".$this->db->escape($weather->sys->id).",UNIX_TIMESTAMP(NOW()),".$this->db->escape($weather->main->temp).","
 					.$this->db->escape($weather->main->temp_min).",".$this->db->escape($weather->main->temp_max).","
 					.$this->db->escape($weather->main->humidity).",".$this->db->escape($weather->wind->speed).",$type),";	
 			}
@@ -76,6 +90,45 @@ class Cities extends CI_Model
 		else
 			return false;
 	}
-
+	
+	/**
+	* PHP Function getWeatherForecast, retrieves weather forecast data - type 0 is current weather, type 1 is forecast, 2 is both.
+	* @name: getWeatherForecast
+	**/
+	function getWeatherForecast($cityId, $minDate=0, $maxDate=0, $type=0)
+	{
+		if(is_numeric($cityId) && $cityId>0)
+		{
+			$condition = "";
+			
+			if(!is_numeric($type) || $type<0 || $type>3)
+				$type = 0;
+			
+			if($type==2)
+				$condition = "(cities_weather.type=0 OR cities_weather.type=1)";
+			else
+				$condition = "cities_weather.type=".$this->db->escape($type);
+			
+			if(is_numeric($minDate) && is_numeric($maxDate) && $minDate<$maxDate)
+				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%d.%m.%Y %h:%i') 
+				FROM cities_weather
+				WHERE $condition
+				AND cities_weather.timestamp>=".$this->db->escape($minDate)." AND cities_weather.timestamp<=".$this->db->escape($maxDate));
+			else
+				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%d.%m.%Y %h:%i') 
+				FROM cities_weather
+				WHERE $condition
+				AND cities_weather.timestamp>=UNIX_TIMESTAMP(CURDATE()) AND cities_weather.timestamp<=FROM_UNIXTIME(NOW())");
+			
+			
+			if($query->num_rows()>0)
+				return $query->result();
+			else
+				return false;
+			
+		}
+		else
+			return false;
+	}
 }
 ?>

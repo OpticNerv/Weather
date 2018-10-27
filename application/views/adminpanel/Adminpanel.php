@@ -106,7 +106,7 @@ $(document).on('submit', '#updateUserForm', function(e)
 	<div class="well" id="userCard-<?php echo $user->id;?>" onclick="getUserProfileData(<?php echo $user->id;?>);">
 		<?php if(isset($user->user_image) && filter_var($user->user_image, FILTER_VALIDATE_URL)) { ?><img style="height:100px;" src="<?php echo $user->user_image;?>" /><?php } ?>
 		<h3><span class="fa fa-user" style="margin-right:10px;"></span><?php echo $user->name;?><?php if(!(bool)$user->is_active) {?><span style="color:red;margin-left:10px;" class="glyphicon glyphicon-fire" title="<?php echo $this->lang->line('deactivated_user');?>"></span><?php } ?></h3>
-			<p><?php echo $user->reg_time;?></p>
+			<p><?php echo date("d.m.Y",$user->reg_time);?></p>
 	</div>
 	
 <?php }}?>

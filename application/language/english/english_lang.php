@@ -4,7 +4,7 @@ $lang["menu_login"] = "Log in";
 $lang["menu_logout"] = "Log out";
 $lang["menu_profile"] = "Profile";
 
-$lang["loginForm_title"] = "Login page for weather app";
+$lang["startpage_title"] = "Choose a city below and prepare to be amazed!";
 
 //userprofile
 $lang["userprofile_Title"] = "User control panel";

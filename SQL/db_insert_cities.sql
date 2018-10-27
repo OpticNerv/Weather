@@ -1,45 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
---
--- Gostitelj: 127.0.0.1
--- Čas nastanka: 24. okt 2018 ob 22.52
--- Različica strežnika: 10.1.30-MariaDB
--- Različica PHP: 7.2.1
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Zbirka podatkov: `weather`
---
-
--- --------------------------------------------------------
-
---
--- Struktura tabele `cities`
---
-
-CREATE TABLE `cities` (
-  `id` int(11) NOT NULL,
-  `city_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `country_name` varchar(5) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `lat` double DEFAULT NULL,
-  `lng` double DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Odloži podatke za tabelo `cities`
---
-
 INSERT INTO `cities` (`id`, `city_name`, `country_name`, `lat`, `lng`) VALUES
 (3186270, 'Žužemberk', 'SI', 14.92917, 45.833889),
 (3186442, 'Žirovnica', 'SI', 14.14, 46.40472),
@@ -345,7 +303,7 @@ INSERT INTO `cities` (`id`, `city_name`, `country_name`, `lat`, `lng`) VALUES
 (3203925, 'Bled', 'SI', 14.11361, 46.369171),
 (3204044, 'Bistrica ob Sotli', 'SI', 15.66417, 46.058891),
 (3204144, 'Bilje', 'SI', 13.63222, 45.89444),
-(3204296, 'Benedikt v Slovenski hGoricah', 'SI', 15.88833, 46.608608),
+(3204296, 'Benedikt v Slovenskih Goricah', 'SI', 15.88833, 46.608608),
 (3204303, 'Beltinci', 'SI', 16.240561, 46.605282),
 (3204598, 'Bakovci', 'SI', 16.15028, 46.618889),
 (3204796, 'Apače', 'SI', 15.91056, 46.69722),
@@ -390,28 +348,3 @@ INSERT INTO `cities` (`id`, `city_name`, `country_name`, `lat`, `lng`) VALUES
 (8133587, 'Občina Renče Vogrsko', 'SI', 13.67564, 45.8936),
 (8198423, 'Cirkulane', 'SI', 15.99517, 46.345291),
 (8198424, 'Šmarješke Toplice', 'SI', 15.22308, 45.861961);
-
---
--- Indeksi zavrženih tabel
---
-
---
--- Indeksi tabele `cities`
---
-ALTER TABLE `cities`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT zavrženih tabel
---
-
---
--- AUTO_INCREMENT tabele `cities`
---
-ALTER TABLE `cities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102908598;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
