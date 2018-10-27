@@ -196,7 +196,9 @@ class Welcome extends CI_Controller {
 		if(isset($_GET['cityId']) && intval($_GET['cityId'])>0)
 		{
 			$this->load->model($Cities);
-			$Cities ) new Cities();
+			$Cities = new Cities();
+			
+			
 		
 		}
 		else
