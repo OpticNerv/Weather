@@ -44,7 +44,12 @@ class Cities extends CI_Model
 	**/
 	function getAllCitiesWithWeatherData()
 	{
-		$query = $this->db->query("SELECT * FROM cities ORDER BY city_name ASC");
+		$query = $this->db->query("SELECT cities.* 
+		FROM cities 
+		INNER JOIN cities_weather
+		ON cities_weather.city_id = cities.id
+		GROUP BY cities.id
+		ORDER BY city_name ASC");
 		
 		if($query->num_rows()>0)
 			return $query->result();
@@ -60,7 +65,7 @@ class Cities extends CI_Model
 	{
 		if(isset($weatherData->cnt) && $weatherData->cnt>0 && isset($weatherData->list) && is_array($weatherData->list) && count($weatherData->list)>0)
 		{
-			if(!is_numeric($type) || intval($type)<0)
+			if(!is_numeric($type) || intval($type)<0 ||intval($type)>1)
 				$type = 0;
 			else
 				$type = intval($type);
@@ -71,14 +76,22 @@ class Cities extends CI_Model
 			
 			foreach($weatherData->list as $weather)
 			{
-				$insertSQL .= "(".$this->db->escape($weather->sys->id).",UNIX_TIMESTAMP(NOW()),".$this->db->escape($weather->main->temp).","
-					.$this->db->escape($weather->main->temp_min).",".$this->db->escape($weather->main->temp_max).","
-					.$this->db->escape($weather->main->humidity).",".$this->db->escape($weather->wind->speed).",$type),";	
+				if(isset($weatherData->city->id) && $weatherData->city->id>0)
+					$cityId = $this->db->escape($weatherData->city->id);
+				else if(isset($weather->id) && $weather->id>0)
+					$cityId = $this->db->escape($weather->id);
+				else
+					$cityId = $this->db->escape(0);
+			
+				if(intval($cityId)>0)
+					$insertSQL .= "(".$this->db->escape($cityId).",".$this->db->escape($weather->dt).",".$this->db->escape($weather->main->temp).","
+						.$this->db->escape($weather->main->temp_min).",".$this->db->escape($weather->main->temp_max).","
+						.$this->db->escape($weather->main->humidity).",".$this->db->escape($weather->wind->speed).",$type),";	
 			}
 			
 			if(strlen($insertSQL)>0)
 			{
-				$this->db->query("INSERT INTO cities_weather VALUES".rtrim($insertSQL,","));
+				$this->db->query("INSERT IGNORE INTO cities_weather VALUES".rtrim($insertSQL,","));
 				if($this->db->affected_rows()>0)
 					return true;
 				else
@@ -112,15 +125,14 @@ class Cities extends CI_Model
 			if(is_numeric($minDate) && is_numeric($maxDate) && $minDate<$maxDate)
 				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%d.%m.%Y %h:%i') 
 				FROM cities_weather
-				WHERE $condition
+				WHERE city_id=$cityId AND $condition
 				AND cities_weather.timestamp>=".$this->db->escape($minDate)." AND cities_weather.timestamp<=".$this->db->escape($maxDate));
 			else
 				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%d.%m.%Y %h:%i') 
 				FROM cities_weather
-				WHERE $condition
-				AND cities_weather.timestamp>=UNIX_TIMESTAMP(CURDATE()) AND cities_weather.timestamp<=FROM_UNIXTIME(NOW())");
-			
-			
+				WHERE city_id=$cityId AND $condition
+				AND cities_weather.timestamp>=UNIX_TIMESTAMP(CURDATE()) AND cities_weather.timestamp<=UNIX_TIMESTAMP(NOW())");
+				
 			if($query->num_rows()>0)
 				return $query->result();
 			else

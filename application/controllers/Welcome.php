@@ -195,11 +195,23 @@ class Welcome extends CI_Controller {
 	{
 		if(isset($_GET['cityId']) && intval($_GET['cityId'])>0)
 		{
-			$this->load->model($Cities);
+			$this->load->model("Cities");
 			$Cities = new Cities();
 			
+			$minDate = 0;
+			$maxDate = 0;
+			$forecast = false;
 			
-		
+			if(isset($_GET["minDate"]) && intval($_GET["minDate"])>0)
+				$minDate = intval($_GET["minDate"]);
+			
+			if(isset($_GET["maxDate"]) && intval($_GET["maxDate"])>0)
+				$maxDate = intval($_GET["maxDate"]);
+			
+			if(isset($_GET["forecast"]) && intval($_GET["forecast"])>=0 && intval($_GET["forecast"])<=2)
+				$forecast = intval($_GET["forecast"]);
+			
+			returnJSON($Cities->getWeatherForecast(intval($_GET['cityId']),$minDate,$maxDate,$forecast));
 		}
 		else
 			returnJSON(false,400);

@@ -37,6 +37,5 @@ CREATE TABLE IF NOT EXISTS `cities_weather`
 	humidity FLOAT NOT NULL,
 	weather_speed FLOAT NOT NULL,
 	type TINYINT(1) NOT NULL,
-	KEY (city_id),
-	KEY (timestamp)
+	UNIQUE KEY (city_id,timestamp,type)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

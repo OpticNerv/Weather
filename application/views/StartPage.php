@@ -10,7 +10,7 @@
 <?php if($allCities) { ?> 
 <div style="float:left;width:100%;">
 	<div style="display:block;width:50%;margin:50px auto;">
-	<select class="form-control" onchange="showWeatherStats(this.value);">
+	<select id="citySelector" class="form-control" onchange="showWeatherStats(this.value);">
 	<?php foreach($allCities as $city) { ?>
 		<option value="<?php echo $city->id;?>"><?php echo $city->city_name;?></option>
 	<?php } ?>
@@ -18,7 +18,7 @@
 	</div>
 </div>	
 
-<div style="float:left;width:100%;background-color:pink;height:300px;">
+<div id="weatherResultContainer" style="float:left;width:100%;background-color:pink;height:300px;">
 
 </div>
 <?php } ?>
@@ -26,3 +26,9 @@
 
 <?php } ?>
 </div>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+    showWeatherStats($("#citySelector").val());
+});
+</script>

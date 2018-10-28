@@ -33,21 +33,31 @@ class Sync extends CI_Controller {
 				{
 					$userCities = array_chunk($userCities,$limit);
 				
+					//retrieve current weather conditions of cities selected by users
 					foreach($userCities as $cityBatch)
 					{
-						//get the current weather data
 						$result = $this->getCurrentWeatherData($cityBatch);
 						if($result)
 							$Cities->storeWeatherForecast($result,0);
 						
-						sleep(40); //sleep fo 40 seconds
+						sleep(40); //sleep for 40 seconds
+					}
+					
+					//get 5 day weather forecast data, it can be only done for one city at a time
+					foreach($userCities as $cityBatch)
+					{
+						foreach($cityBatch as $city)
+						{
+							$result = $this->getWeatherForecastData($city->id);
+							if($result)
+								$Cities->storeWeatherForecast($result,1);
 						
-						
-						//get the forecast weather data
-						
-						
+							sleep(2); //sleep for 2 seconds
+						}
 					}
 				}
+				
+				return true;
 			}
 			else
 				die("Missing OpenWeatherMap API key and/or API URL. Or API call URL is invalid, so make sure to set them up in your config file.");
@@ -57,7 +67,7 @@ class Sync extends CI_Controller {
 	}
 	
 	
-	/* Max limit is set to 30 due to the OpenWeatherMap free acc limitations*/
+	/* Max limit is set to 20 due to the OpenWeatherMap free acc limitations*/
 	function getCurrentWeatherData($cityIds,$limit=20)
 	{
 		if(is_cli())
@@ -92,10 +102,39 @@ class Sync extends CI_Controller {
 							else
 								return false;
 						}
-						catch(Exception $e) { echo "error retriving data"; }
+						catch(Exception $e) { echo "error retriving data"; return false; }
 					}
 					else
 						return false;
+				}
+				else
+					return false;
+			}
+			else
+				return false;
+		}
+		else
+			die("Unauthorized access!");
+	}
+	
+	function getWeatherForecastData($cityId)
+	{
+		if(is_cli())
+		{
+			if(is_numeric($cityId) && intval($cityId)>0)
+			{
+				if($this->config->item('owp_api_key') && $this->config->item('owp_api_url') && strlen($this->config->item('owp_api_key'))>0 && filter_var($this->config->item('owp_api_url'), FILTER_VALIDATE_URL))
+				{
+					$requestUrl = $this->config->item('owp_api_url')."forecast?id=".$cityId."&APPID=".$this->config->item('owp_api_key')."&units=metric";
+					try
+					{
+						$response = json_decode(file_get_contents($requestUrl));
+						if(isset($response->cnt) && $response->cnt>1)
+							return $response;
+						else
+							return false;
+					}
+					catch(Exception $e) { echo "error retriving data"; return false; }
 				}
 				else
 					return false;

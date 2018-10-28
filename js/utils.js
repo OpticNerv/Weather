@@ -14,14 +14,15 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 			$.ajax(
 			{	
 				url: baseUrl+"showWeatherStats", 
-				data: { "cityId":cityId, "startDate":startDate, "endDate":endDate, "forecatst":forecast },
+				data: { "cityId":cityId, "startDate":startDate, "endDate":endDate, "forecast":forecast },
 				type: "GET",
+				dataType : "JSON",
 				success: function(result)
 				{
-					
+					$("#weatherResultContainer").text(result[0].current_temp);
 				}
 			});
 		}			
-		catch(Error) {}
+		catch(Error) { }
 	}
 }
