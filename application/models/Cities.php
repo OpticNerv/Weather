@@ -105,19 +105,16 @@ class Cities extends CI_Model
 	}
 	
 	/**
-	* PHP Function getWeatherForecast, retrieves weather forecast data - type 0 is current weather, type 1 is forecast, 2 is both.
+	* PHP Function getWeatherForecast, retrieves weather forecast data between two dates, forecast parameter is optional.
 	* @name: getWeatherForecast
 	**/
-	function getWeatherForecast($cityId, $minDate=0, $maxDate=0, $type=0)
+	function getWeatherForecast($cityId, $minDate=0, $maxDate=0, $forecast = false)
 	{
 		if(is_numeric($cityId) && $cityId>0)
 		{
 			$condition = "";
-			
-			if(!is_numeric($type) || $type<0 || $type>3)
-				$type = 0;
-			
-			if($type==2)
+		
+			if($forecast)
 				$condition = "(cities_weather.type=0 OR cities_weather.type=1)";
 			else
 				$condition = "cities_weather.type=".$this->db->escape($type);

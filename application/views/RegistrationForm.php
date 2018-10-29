@@ -10,15 +10,15 @@
 		<div class="alert alert-danger"><?php echo $errorMessage;?></div>
 	<?php } ?>
 
-	<?php if(!isset($errorMessage)) { ?>
 	<!-- REGISTRATION FORM -->
 	<form action="<?php echo $this->config->base_url();?>register_user" method="post">
 		<div class="form-group">
-		<input type="checkbox" value=1 name="consent" /> Agree to our super terms!
-		<input type="submit" value="We are great!"/>
+		<p>By registering at our website, you agree and allow of your personal data (name, surname and profile picture) to be stored
+		for purpose of distinguishing users at our website.</p>
+		<input type="checkbox" value=1 name="consent" /> I agree and allow usage of my personal data<br /><br />
+		<input type="submit" value="Register me!"/>
 		</div>
 	</form>
-	<?php } ?>
 	<hr>
 </div>
 <?php $this->load->view("Footer"); ?>

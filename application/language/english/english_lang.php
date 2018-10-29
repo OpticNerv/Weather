@@ -10,6 +10,7 @@ $lang["startpage_title"] = "Choose a city below and prepare to be amazed!";
 $lang["userprofile_Title"] = "User control panel";
 $lang["userprofile_Description"] = "Users control panel.";
 $lang["unAuthorized_access"] = "Unauthorized access. Please log in.";
+$lang["profile_error"] = "Error updating user session";
 
 //registration form
 $lang["registration_error"] = "A problem occured during registration";
@@ -25,4 +26,5 @@ $lang["save_changes"] = "Save";
 $lang["cancel_changes"] = "Cancel";
 $lang["userprofile_updated"] = "User profile successfully updated";
 $lang["userprofile_errorupdating"] = "Error updating user profile";
+$lang["search_cities"] = "Search cities";
 ?>

@@ -15,10 +15,18 @@ class Profile extends CI_Controller {
 			$userData = $Users->getUser($this->session->userdata('email'));
 			if($userData && (bool)$userData->is_active)
 			{
+				$this->load->model("Users");
+				$Users = new Users();
+				
+				$extraScripts = array('<script src="'.$this->config->base_url().'js/Chart.bundle.js"></script>',
+				'<script src="'.$this->config->base_url().'js/utils.js"></script>','<script>var baseUrl="'.$this->config->base_url().'";</script>',
+				'<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
+				'<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">');
+				
 				$seoData["seoTitle"] = $this->lang->line("userprofile_Title");
 				$seoData["seoDescription"] = $this->lang->line("userprofile_Description");
-				$this->load->view("Header",$seoData);
-				$this->load->view("userprofile/Userpanel");
+				$this->load->view("Header",array("seoData" => $seoData, "extraScripts" => $extraScripts));
+				$this->load->view("userprofile/Userpanel",array("userCities" => $Users->getUserCities($this->session->userdata("user_id"))));
 				$this->load->view("Footer");	
 			}
 			else

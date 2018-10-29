@@ -11,7 +11,9 @@ class Welcome extends CI_Controller {
 		$Cities = new Cities();
 		
 		$extraScripts = array('<script src="'.$this->config->base_url().'js/Chart.bundle.js"></script>',
-		'<script src="'.$this->config->base_url().'js/utils.js"></script>','<script>var baseUrl="'.$this->config->base_url().'";</script>');
+		'<script src="'.$this->config->base_url().'js/utils.js"></script>','<script>var baseUrl="'.$this->config->base_url().'";</script>',
+		'<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
+		'<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">');
 		
 		$this->load->view("Header", array("extraScripts" => $extraScripts));
 		$this->load->view("StartPage",array("allCities" => $Cities->getAllCitiesWithWeatherData()));
@@ -94,11 +96,10 @@ class Welcome extends CI_Controller {
 						if($userData && (bool)$userData->is_active)
 						{
 							//update his current session data
-							$currentSession = $this->session->userdata();
-							$currentSession['logged_in'] = true;
-							$currentSession['is_superuser'] = (bool)$userData->is_superuser;
-							$this->session->set_userdata($currentSession);
-							$this->redirect_to_profile();
+							if($this->updateUserSessionData($userData))
+								$this->redirect_to_profile();
+							else
+								$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 						}
 						else
 							header('Location: ' . filter_var($this->config->base_url()."show_registration_form", FILTER_SANITIZE_URL));
@@ -131,11 +132,10 @@ class Welcome extends CI_Controller {
 			else if((bool)$userData->is_active)
 			{
 				//update his current session data
-				$currentSession = $this->session->userdata();
-				$currentSession['logged_in'] = true;
-				$currentSession['is_superuser'] = (bool)$userData->is_superuser;
-				$this->session->set_userdata($currentSession);
-				$this->redirect_to_profile();
+				if($this->updateUserSessionData($userData))
+					$this->redirect_to_profile();
+				else
+					$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 			}
 			else //deactivated user
 				$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_deactivatedAcc')));
@@ -151,7 +151,6 @@ class Welcome extends CI_Controller {
 			$this->redirect_to_profile();
 		else if($this->session->userdata('email') && $this->session->userdata('name')) //user is not yet logged in to our application
 		{
-		
 			if(isset($_POST['consent']) && intval($_POST['consent'])>0)
 			{
 				$userData = $Users->getUser($this->session->userdata('email'));
@@ -162,11 +161,10 @@ class Welcome extends CI_Controller {
 						$userData = $Users->getUser($this->session->userdata('email'));
 						
 						//update his current session data
-						$currentSession = $this->session->userdata();
-						$currentSession['logged_in'] = true;
-						$currentSession['is_superuser'] = (bool)$userData->is_superuser;
-						$this->session->set_userdata($currentSession);
-						$this->redirect_to_profile();
+						if($this->updateUserSessionData($userData))
+							$this->redirect_to_profile();
+						else
+							$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 					}
 					else
 						$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_error')));
@@ -174,12 +172,10 @@ class Welcome extends CI_Controller {
 				else if((bool)$userData->is_active)
 				{
 					//update his current session data
-					$currentSession = $this->session->userdata();
-					$currentSession['logged_in'] = true;
-					$currentSession['is_superuser'] = (bool)$userData->is_superuser;
-					$this->session->set_userdata($currentSession);
-					$this->redirect_to_profile();
-					
+					if($this->updateUserSessionData($userData))
+						$this->redirect_to_profile();
+					else
+						$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 				}
 				else //deactivated user
 					$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_deactivatedAcc')));
@@ -189,6 +185,21 @@ class Welcome extends CI_Controller {
 		}
 		else //missing google session data
 			$this->google_login();
+	}
+	
+	function updateUserSessionData($userData)
+	{
+		if($this->session->userdata("email") && isset($userData->email) && $this->session->userdata("email") == $userData->email)
+		{
+			$currentSession = $this->session->userdata();
+			$currentSession['logged_in'] = true;
+			$currentSession['is_superuser'] = (bool)$userData->is_superuser;
+			$currentSession['user_id'] = $userData->id;
+			$this->session->set_userdata($currentSession);
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	function showWeatherStats()
@@ -202,14 +213,16 @@ class Welcome extends CI_Controller {
 			$maxDate = 0;
 			$forecast = false;
 			
-			if(isset($_GET["minDate"]) && intval($_GET["minDate"])>0)
-				$minDate = intval($_GET["minDate"]);
+			if(isset($_GET["minDate"]) && strlen($_GET["minDate"])>0)
+				$minDate = strtotime($_GET["minDate"]);
 			
-			if(isset($_GET["maxDate"]) && intval($_GET["maxDate"])>0)
-				$maxDate = intval($_GET["maxDate"]);
+			if(isset($_GET["maxDate"]) && strlen($_GET["maxDate"])>0)
+				$maxDate = strtotime($_GET["maxDate"]);
 			
-			if(isset($_GET["forecast"]) && intval($_GET["forecast"])>=0 && intval($_GET["forecast"])<=2)
-				$forecast = intval($_GET["forecast"]);
+			if(isset($_GET["forecast"]) && (bool)($_GET["forecast"]))
+				$forecast = true;
+			else
+				$forecast = false;
 			
 			returnJSON($Cities->getWeatherForecast(intval($_GET['cityId']),$minDate,$maxDate,$forecast));
 		}
