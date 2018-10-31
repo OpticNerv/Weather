@@ -67,7 +67,12 @@ class Sync extends CI_Controller {
 	}
 	
 	
-	/* Max limit is set to 20 due to the OpenWeatherMap free acc limitations*/
+	/**
+	* PHP Function getCurrentWeatherData, retrieves current weather information for an array of city Ids
+	* cityId is id of the city, according to the OpenWeatherMapAPI
+	* Max limit is set to 20 due to the OpenWeatherMap free acc limitations
+	* @name: getCurrentWeatherData
+	**/
 	function getCurrentWeatherData($cityIds,$limit=20)
 	{
 		if(is_cli())
@@ -117,6 +122,12 @@ class Sync extends CI_Controller {
 			die("Unauthorized access!");
 	}
 	
+	/**
+	* PHP Function getWeatherForecastData, retrieves forecast for a specified city
+	* cityId is id of the city, according to the OpenWeatherMapAPI
+	* it retrieves data for 5 days in three hours interval
+	* @name: getWeatherForecastData
+	**/
 	function getWeatherForecastData($cityId)
 	{
 		if(is_cli())
