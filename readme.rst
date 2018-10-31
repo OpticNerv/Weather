@@ -1,29 +1,10 @@
 ###################
-What is CodeIgniter
+What is WeatherApp
 ###################
 
-CodeIgniter is an Application Development Framework - a toolkit - for people
-who build web sites using PHP. Its goal is to enable you to develop projects
-much faster than you could if you were writing code from scratch, by providing
-a rich set of libraries for commonly needed tasks, as well as a simple
-interface and logical structure to access these libraries. CodeIgniter lets
-you creatively focus on your project by minimizing the amount of code needed
-for a given task.
+WeatherApp is a small exercise task, whose main goal was to study OAuth2
+and usage of one of the free weather API services. In this case, OpenWeatherMap`s API was used.
 
-*******************
-Release Information
-*******************
-
-This repo contains in-development code for future releases. To download the
-latest stable release please visit the `CodeIgniter Downloads
-<https://codeigniter.com/download>`_ page.
-
-**************************
-Changelog and New Features
-**************************
-
-You can find a list of all changes for each release in the `user
-guide change log <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/changelog.rst>`_.
 
 *******************
 Server Requirements
@@ -31,40 +12,33 @@ Server Requirements
 
 PHP version 5.6 or newer is recommended.
 
-It should work on 5.3.7 as well, but we strongly advise you NOT to run
-such old versions of PHP, because of potential security and performance
-issues, as well as missing features.
+MySQL database or equivalent is required in order to store the weather data. 
+
+CRON jobs are required to run periodic retrieval of weather data.
 
 ************
 Installation
 ************
 
-Please see the `installation section <https://codeigniter.com/user_guide/installation/index.html>`_
-of the CodeIgniter User Guide.
+1.) Set up your Google+ Oauth credentials <https://console.cloud.google.com/apis/dashboard> 
+and create an authorized redirect URL for it, pointing to you server to function googleAuth in welcome controller.
+Once you have your credentials set up, save them as JSON file in the credentials folder in the root of the project.
 
-*******
-License
-*******
+2.) Set up your database and run query scripts in SQL folder in the root of the project. 
+Note: db_insert_cities.sql right now only has Slovenian cities imported.
 
-Please see the `license
-agreement <https://github.com/bcit-ci/CodeIgniter/blob/develop/user_guide_src/source/license.rst>`_.
+3.) Register at OpenWeatherMap and get your API key and URL for requests to their API
 
-*********
-Resources
-*********
-
--  `User Guide <https://codeigniter.com/docs>`_
--  `Language File Translations <https://github.com/bcit-ci/codeigniter3-translations>`_
--  `Community Forums <http://forum.codeigniter.com/>`_
--  `Community Wiki <https://github.com/bcit-ci/CodeIgniter/wiki>`_
--  `Community Slack Channel <https://codeigniterchat.slack.com>`_
-
-Report security issues to our `Security Panel <mailto:security@codeigniter.com>`_
-or via our `page on HackerOne <https://hackerone.com/codeigniter>`_, thank you.
+3.) Update your config/config.php file 
+- set up the base url
+- fill out the $config['owp_api_key'] and $config['owp_api_url'] variable according to your OWP API credentials
 
 ***************
-Acknowledgement
+Acknowledgements
 ***************
 
-The CodeIgniter team would like to thank EllisLab, all the
-contributors to the CodeIgniter project and you, the CodeIgniter user.
+- Codeigniter 3.1.9 <https://codeigniter.com/>
+- ChartJS <https://www.chartjs.org/>
+- Datepicker <https://jqueryui.com/datepicker/>
+- OpenWeatherMap <https://openweathermap.org/>
+- Google+ API for OAuth 
