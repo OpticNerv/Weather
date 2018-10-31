@@ -19,9 +19,12 @@ class Profile extends CI_Controller {
 				$Users = new Users();
 				
 				$extraScripts = array('<script src="'.$this->config->base_url().'js/Chart.bundle.js"></script>',
-				'<script src="'.$this->config->base_url().'js/utils.js"></script>','<script>var baseUrl="'.$this->config->base_url().'";</script>',
-				'<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
-				'<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">');
+				'	<script src="'.$this->config->base_url().'js/utils.js"></script>',
+				'	<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
+				'	<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">',
+				'	<script>var baseUrl="'.$this->config->base_url().'"; var actualTempsLbl="'.
+				$this->lang->line("actual_temps").'"; var predictedTemps="'.$this->lang->line("forecast_temps").
+				'"; var noData="'.$this->lang->line("no_data").'"; var yLabel="'.$this->lang->line("y_label").'"; var xLabel="'.$this->lang->line("x_label").'";</script>');
 				
 				$seoData["seoTitle"] = $this->lang->line("userprofile_Title");
 				$seoData["seoDescription"] = $this->lang->line("userprofile_Description");

@@ -1,3 +1,4 @@
+<div class="container">
 <h1>Welcome <?php echo $this->session->userdata("name")."!";?></h1>
 
 <?php if($userCities) { ?> 
@@ -13,10 +14,11 @@
 	<input style="float:left;height:30px;" type="checkbox" /><input style="float:left;height:30px;" type="button" value="Show meh!" onclick="showWeatherStats($('#citySelector').val(),$('#startDate').val(), $('#endDate').val(), $('input[type=checkbox]').is(':checked'));" />
 </div>	
 
-<div id="weatherResultContainer" style="float:left;width:100%;background-color:pink;height:300px;">
-
+<div id="weatherResultContainer" style="float:left;width:100%;height:300px;">
+	<canvas id="canvas"></canvas>
 </div>
 <?php } ?>
+</div>
 
 
 <script type="text/javascript">

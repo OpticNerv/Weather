@@ -11,6 +11,7 @@ $lang["userprofile_Title"] = "User control panel";
 $lang["userprofile_Description"] = "Users control panel.";
 $lang["unAuthorized_access"] = "Unauthorized access. Please log in.";
 $lang["profile_error"] = "Error updating user session";
+$lang["no_data"] = "No results to show in this timespan!";
 
 //registration form
 $lang["registration_error"] = "A problem occured during registration";
@@ -27,4 +28,10 @@ $lang["cancel_changes"] = "Cancel";
 $lang["userprofile_updated"] = "User profile successfully updated";
 $lang["userprofile_errorupdating"] = "Error updating user profile";
 $lang["search_cities"] = "Search cities";
+
+//graph labels
+$lang["actual_temps"] = "Measured temperatures";
+$lang["forecast_temps"] = "Predicted temperatures";
+$lang["y_label"] = "Degrees Celsius";
+$lang["x_label"] = "Date time";
 ?>

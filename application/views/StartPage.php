@@ -1,5 +1,4 @@
 <div class="container">
-
 <center><h1><?php echo $this->lang->line("startpage_title");?></h1></center>
 
 <!-- show any messages that come back with authentication -->
@@ -18,8 +17,8 @@
 	</div>
 </div>	
 
-<div id="weatherResultContainer" style="float:left;width:100%;background-color:pink;height:300px;">
-
+<div id="weatherResultContainer" style="float:left;width:100%;height:300px;">
+	<canvas id="canvas"></canvas>
 </div>
 <?php } ?>
 

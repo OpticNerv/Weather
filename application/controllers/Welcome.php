@@ -11,10 +11,12 @@ class Welcome extends CI_Controller {
 		$Cities = new Cities();
 		
 		$extraScripts = array('<script src="'.$this->config->base_url().'js/Chart.bundle.js"></script>',
-		'<script src="'.$this->config->base_url().'js/utils.js"></script>','<script>var baseUrl="'.$this->config->base_url().'";</script>',
-		'<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
-		'<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">');
-		
+		'	<script src="'.$this->config->base_url().'js/utils.js"></script>',
+		'	<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
+		'	<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">',
+		'	<script>var baseUrl="'.$this->config->base_url().'"; var actualTempsLbl="'.
+		$this->lang->line("actual_temps").'"; var predictedTemps="'.$this->lang->line("forecast_temps").
+		'"; var noData="'.$this->lang->line("no_data").'"; var yLabel="'.$this->lang->line("y_label").'"; var xLabel="'.$this->lang->line("x_label").'";</script>');
 		$this->load->view("Header", array("extraScripts" => $extraScripts));
 		$this->load->view("StartPage",array("allCities" => $Cities->getAllCitiesWithWeatherData()));
 		$this->load->view("Footer");
@@ -209,22 +211,26 @@ class Welcome extends CI_Controller {
 			$this->load->model("Cities");
 			$Cities = new Cities();
 			
-			$minDate = 0;
-			$maxDate = 0;
+			$startDate = 0;
+			$endDate = 0;
 			$forecast = false;
 			
-			if(isset($_GET["minDate"]) && strlen($_GET["minDate"])>0)
-				$minDate = strtotime($_GET["minDate"]);
+			if(isset($_GET["startDate"]) && strlen($_GET["startDate"])>0)
+				$startDate = strtotime($_GET["startDate"]);
 			
-			if(isset($_GET["maxDate"]) && strlen($_GET["maxDate"])>0)
-				$maxDate = strtotime($_GET["maxDate"]);
+			if(isset($_GET["endDate"]) && strlen($_GET["endDate"])>0)
+				$endDate = strtotime($_GET["endDate"]);
 			
 			if(isset($_GET["forecast"]) && (bool)($_GET["forecast"]))
 				$forecast = true;
 			else
 				$forecast = false;
-			
-			returnJSON($Cities->getWeatherForecast(intval($_GET['cityId']),$minDate,$maxDate,$forecast));
+				
+			/* correct the end date so it includes whole 23:59 time */	
+			if($endDate)
+				$endDate   = strtotime("tomorrow", $endDate) - 1;		
+					
+			returnJSON($Cities->getWeatherForecast(intval($_GET['cityId']),$startDate,$endDate,$forecast));
 		}
 		else
 			returnJSON(false,400);
