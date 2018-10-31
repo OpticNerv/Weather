@@ -117,7 +117,7 @@ class Cities extends CI_Model
 			if($forecast)
 				$condition = "(cities_weather.type=0 OR cities_weather.type=1)";
 			else
-				$condition = "cities_weather.type=".$this->db->escape($type);
+				$condition = "cities_weather.type=0";
 			
 			if(is_numeric($minDate) && is_numeric($maxDate) && $minDate<$maxDate)
 				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%Y-%m-%dT%H:00') as parsed_timestamp   

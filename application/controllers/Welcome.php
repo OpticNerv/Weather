@@ -221,7 +221,7 @@ class Welcome extends CI_Controller {
 			if(isset($_GET["endDate"]) && strlen($_GET["endDate"])>0)
 				$endDate = strtotime($_GET["endDate"]);
 			
-			if(isset($_GET["forecast"]) && (bool)($_GET["forecast"]))
+			if(isset($_GET["forecast"]) && $_GET["forecast"] == "true")
 				$forecast = true;
 			else
 				$forecast = false;

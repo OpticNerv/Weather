@@ -33,29 +33,35 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 								forecastTemps.push({ x:value.parsed_timestamp, y:value.current_temp });
 						});
 						
-						if(actualTemps.length>0 && forecastTemps.length>0)
+						if(actualTemps.length>0 || forecastTemps.length>0)
 						{
 							if($("#weatherResultContainer").length)
 							{
-								var config = {
-								type: 'line',
-								data: {
-									datasets: [
-										{
+							
+								var dataSets = [];
+								if(actualTemps.length>0)
+									dataSets.push({
 											label: actualTempsLbl,
 											backgroundColor: "#ff9999",
 											borderColor: "#ff4d4d",
 											fill: false,
 											data: actualTemps,
-										}, 
-										{
+										});
+								
+								if(forecastTemps.length>0)
+									dataSets.push({
 											label: predictedTemps,
 											backgroundColor: "#99c2ff",
 											borderColor: "#4d94ff",
 											fill: false,
 											data: forecastTemps
-										}
-									]
+										});
+							
+							
+								var config = {
+								type: 'line',
+								data: {
+									datasets: dataSets
 								},
 								options: {
 									responsive: true,
