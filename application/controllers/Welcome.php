@@ -5,6 +5,11 @@ class Welcome extends CI_Controller {
 	
 	private $credentials_file = "";
 
+	/**
+	* PHP Function index, default entry point for our page.
+	* it loads default scripts and cities with weather data for the landing page
+	* @name: index
+	**/
 	public function index()
 	{
 		$this->load->model("Cities");

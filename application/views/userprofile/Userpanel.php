@@ -30,6 +30,11 @@ $( document ).ready(function()
 	getUserProfileData();
 });
 
+/**
+* JS Function getUserProfileData, retrieves users profile data
+* and selected cities via AJAX request
+* @name: getUserProfileData
+**/
 function getUserProfileData()
 {
 	$("#canvas").html("");
@@ -102,6 +107,10 @@ function getUserProfileData()
 	});
 }
 
+/**
+* We intercept the form submit and submit it 
+* async using AJAX
+**/
 $(document).on('submit', '#updateUserForm', function(e)
 {
 	e.preventDefault();

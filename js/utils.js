@@ -3,7 +3,7 @@
 * start and end date are optional parameters for limiting the time span of data
 * foreacast is also passed on as an optional parameter,
 * if no start/end dates are selected, current weather data is displayed
-* @name: showWeatherStats
+* if data is found, it is displayed using Chart.js
 **/
 function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false)
 {

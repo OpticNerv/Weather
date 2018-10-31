@@ -91,6 +91,12 @@ function getUserProfileData(userId)
 	}
 }
 
+/**
+* JS Function clearUserDetails, helper function 
+* for hiding users profile container and removing border
+* when the user is no longer selected
+* @name: clearUserDetails
+**/
 function clearUserDetails()
 {
 	$('[id*="userCard-"]').css("border","initial");
@@ -98,7 +104,10 @@ function clearUserDetails()
 	$("#userDetails").html('');
 }
 
-
+/**
+* We intercept the form submit and submit it 
+* async using AJAX
+**/
 $(document).on('submit', '#updateUserForm', function(e)
 {
 	e.preventDefault();
