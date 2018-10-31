@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="<?php echo $this->config->base_url();?>js/jquery-3.3.1.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="<?php echo $this->config->base_url();?>css/style.css">
   <?php if(isset($extraScripts) && $extraScripts) { foreach($extraScripts as $script) { echo $script."\r\n"; }}?>
 </head>
 
@@ -33,7 +34,7 @@
     </li>
 	<?php } else { ?>
 	<ul class="nav navbar-nav" style="float:right;">
-      <li class="active"><a href="<?php echo $this->config->base_url();?>google_login"><?php echo $this->lang->line("menu_login");?></a></li>
+      <li class="active"><a href="<?php echo $this->config->base_url();?>googleLogin"><?php echo $this->lang->line("menu_login");?></a></li>
     </ul>
 	<?php } ?>
   </div>

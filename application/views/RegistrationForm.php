@@ -11,7 +11,7 @@
 	<?php } ?>
 
 	<!-- REGISTRATION FORM -->
-	<form action="<?php echo $this->config->base_url();?>register_user" method="post">
+	<form action="<?php echo $this->config->base_url();?>registerUser" method="post">
 		<div class="form-group">
 		<p>By registering at our website, you agree and allow of your personal data (name, surname and profile picture) to be stored
 		for purpose of distinguishing users at our website.</p>

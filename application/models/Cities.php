@@ -128,7 +128,7 @@ class Cities extends CI_Model
 				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%Y-%m-%dT%H:00') as parsed_timestamp 
 				FROM cities_weather
 				WHERE city_id=$cityId AND $condition
-				AND cities_weather.timestamp>=UNIX_TIMESTAMP(CURDATE()) AND cities_weather.timestamp<=UNIX_TIMESTAMP(NOW()) ORDER BY cities_weather.timestamp ASC");
+				AND cities_weather.timestamp>=UNIX_TIMESTAMP(CURDATE()) AND cities_weather.timestamp<=UNIX_TIMESTAMP(CURDATE() + INTERVAL 1 DAY) ORDER BY cities_weather.timestamp ASC");
 				
 			if($query->num_rows()>0)
 				return $query->result();

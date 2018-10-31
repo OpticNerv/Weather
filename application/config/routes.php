@@ -54,11 +54,11 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 //welcome page
-$route['google_login'] = 'welcome/google_login';
-$route['google_auth'] = 'welcome/google_auth';
+$route['googleLogin'] = 'welcome/googleLogin';
+$route['googleAuth'] = 'welcome/googleAuth';
 $route['logout'] = 'welcome/logout';
-$route['show_registration_form'] = 'welcome/show_registration_form';
-$route['register_user'] = 'welcome/register_user';
+$route['showRegistrationForm'] = 'welcome/showRegistrationForm';
+$route['registerUser'] = 'welcome/registerUser';
 
 //profiles
 $route['profile'] = 'profile';

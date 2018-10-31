@@ -12,6 +12,7 @@ $lang["userprofile_Description"] = "Users control panel.";
 $lang["unAuthorized_access"] = "Unauthorized access. Please log in.";
 $lang["profile_error"] = "Error updating user session";
 $lang["no_data"] = "No results to show in this timespan!";
+$lang["no_cities_selected"] = "Please select some cities for your profile";
 
 //registration form
 $lang["registration_error"] = "A problem occured during registration";

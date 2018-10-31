@@ -38,7 +38,7 @@ function getUserProfileData(userId)
 		
 		$.ajax(
 		{	
-			url: "<?php echo $this->config->base_url();?>admin/getUserProfileData/", 
+			url: "<?php echo $this->config->base_url();?>profile/getUserProfileData/", 
 			data: { "userId":userId },
 			type: "GET",
 			dataType :"JSON",
@@ -105,7 +105,7 @@ $(document).on('submit', '#updateUserForm', function(e)
 	
 	$.ajax(
 	{	
-		url: "<?php echo $this->config->base_url();?>admin/updateUserProfile/", 
+		url: "<?php echo $this->config->base_url();?>profile/updateUserProfile/", 
 		data: new FormData(this),
 		contentType: false,
 		cache: false,

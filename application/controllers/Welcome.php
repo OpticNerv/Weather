@@ -22,13 +22,18 @@ class Welcome extends CI_Controller {
 		$this->load->view("Footer");
 	}
 	
-	function google_login()
+	/**
+	* PHP Function googleLogin, helper function that redirects to google login function
+	* or to users profile, if current user is logged in and his account is valid
+	* @name: googleLogin
+	**/
+	function googleLogin()
 	{
 		if($this->session->userdata('logged_in'))
 			header('Location: ' . filter_var($this->config->base_url()."profile", FILTER_SANITIZE_URL));
 		else if($this->checkOauthCredentials() && file_exists($this->credentials_file))
 		{
-		  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth';
+		  $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/googleAuth';
 		  header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 		}
 		else
@@ -36,6 +41,11 @@ class Welcome extends CI_Controller {
 		
 	}
 	
+	/**
+	* PHP Function checkOauthCredentials, helper function that chechs if 
+	* our google oauth credentials are stored on our server
+	* @name: checkOauthCredentials
+	**/
 	function checkOauthCredentials()
 	{
 		if(is_array(glob("credentials/client_secret*")) && count(glob("credentials/client_secret*"))==1)
@@ -50,7 +60,14 @@ class Welcome extends CI_Controller {
 		}
 	}
 	
-	function google_auth()
+	/**
+	* PHP Function googleAuth, performs google authentication
+	* if access token and user info is successfully retrieved 
+	* it checks if user is already registered (and redirects him accordingly)
+	* or it redirects him to registration page
+	* @name: googleAuth
+	**/
+	function googleAuth()
 	{
 		if($this->checkOauthCredentials() && file_exists($this->credentials_file))
 		{
@@ -60,7 +77,7 @@ class Welcome extends CI_Controller {
 			$client->setAuthConfigFile($this->credentials_file);
 			$client->addScope("https://www.googleapis.com/auth/userinfo.email");
 			$client->addScope("https://www.googleapis.com/auth/userinfo.profile");
-			$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth');
+			$client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/weather/googleAuth');
 
 			if (! isset($_GET['code'])) 
 			{
@@ -99,19 +116,19 @@ class Welcome extends CI_Controller {
 						{
 							//update his current session data
 							if($this->updateUserSessionData($userData))
-								$this->redirect_to_profile();
+								$this->redirectToProfile();
 							else
 								$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 						}
 						else
-							header('Location: ' . filter_var($this->config->base_url()."show_registration_form", FILTER_SANITIZE_URL));
+							header('Location: ' . filter_var($this->config->base_url()."showRegistrationForm", FILTER_SANITIZE_URL));
 					}
 				} 
 				else 
 				{
 					$authUrl = $client->createAuthUrl();
 					$data['authUrl'] = $authUrl;
-					$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/google_auth';
+					$redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/weather/googleAuth';
 					header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 				}
 			}
@@ -120,10 +137,15 @@ class Welcome extends CI_Controller {
 			die();
 	}
 	
-	function show_registration_form()
+	/**
+	* PHP Function showRegistrationForm, helper function for loading registration form for new users
+	* if user is already logged in and his account is valid, he is redirected accordingly
+	* @name: showRegistrationForm
+	**/
+	function showRegistrationForm()
 	{
 		if($this->session->userdata('logged_in'))
-			$this->redirect_to_profile();
+			$this->redirectToProfile();
 		else if($this->session->userdata('name') && $this->session->userdata('email'))
 		{
 			$this->load->model('Users');
@@ -135,7 +157,7 @@ class Welcome extends CI_Controller {
 			{
 				//update his current session data
 				if($this->updateUserSessionData($userData))
-					$this->redirect_to_profile();
+					$this->redirectToProfile();
 				else
 					$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 			}
@@ -144,13 +166,19 @@ class Welcome extends CI_Controller {
 		}
 	}
 	
-	function register_user()
+	/**
+	* PHP Function registerUser, function used for registering new users
+	* it checks if user is already registered and if his account is valid it redirects him accordingly
+	* if he is a new user, he has to consent to our page usage terms, then his account is created
+	* @name: registerUser
+	**/
+	function registerUser()
 	{
 		$this->load->model('Users');
 		$Users = new Users();
 	
 		if($this->session->userdata('logged_in')) //user is already logged in
-			$this->redirect_to_profile();
+			$this->redirectToProfile();
 		else if($this->session->userdata('email') && $this->session->userdata('name')) //user is not yet logged in to our application
 		{
 			if(isset($_POST['consent']) && intval($_POST['consent'])>0)
@@ -164,7 +192,7 @@ class Welcome extends CI_Controller {
 						
 						//update his current session data
 						if($this->updateUserSessionData($userData))
-							$this->redirect_to_profile();
+							$this->redirectToProfile();
 						else
 							$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 					}
@@ -175,7 +203,7 @@ class Welcome extends CI_Controller {
 				{
 					//update his current session data
 					if($this->updateUserSessionData($userData))
-						$this->redirect_to_profile();
+						$this->redirectToProfile();
 					else
 						$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('profile_error')));
 				}
@@ -186,9 +214,14 @@ class Welcome extends CI_Controller {
 					$this->load->view('RegistrationForm',array('errorMessage' => $this->lang->line('registration_agreeToTerms')));
 		}
 		else //missing google session data
-			$this->google_login();
+			$this->googleLogin();
 	}
 	
+	/**
+	* PHP Function updateUserSessionData, helper function for adding necessary system session variables
+	* to his current session, such as his user id and if user is admin
+	* @name: updateUserSessionData
+	**/
 	function updateUserSessionData($userData)
 	{
 		if($this->session->userdata("email") && isset($userData->email) && $this->session->userdata("email") == $userData->email)
@@ -204,6 +237,11 @@ class Welcome extends CI_Controller {
 			return false;
 	}
 	
+	/**
+	* PHP Function redirectToProfile, redirects current to his profile, according to his 
+	* privileges (admin/regular user)
+	* @name: redirectToProfile
+	**/
 	function showWeatherStats()
 	{
 		if(isset($_GET['cityId']) && intval($_GET['cityId'])>0)
@@ -236,7 +274,12 @@ class Welcome extends CI_Controller {
 			returnJSON(false,400);
 	}
 	
-	function redirect_to_profile()
+	/**
+	* PHP Function redirectToProfile, redirects current to his profile, according to his 
+	* privileges (admin/regular user)
+	* @name: redirectToProfile
+	**/
+	function redirectToProfile()
 	{
 		if($this->session->userdata('is_superuser'))
 			header('Location: ' . filter_var($this->config->base_url()."adminpanel", FILTER_SANITIZE_URL));
@@ -244,6 +287,10 @@ class Welcome extends CI_Controller {
 			header('Location: ' . filter_var($this->config->base_url()."profile", FILTER_SANITIZE_URL));
 	}
 	
+	/**
+	* PHP Function logout, destroys users current session and redirects to our landing page
+	* @name: logout
+	**/
 	function logout()
 	{
 		$this->session->sess_destroy();
