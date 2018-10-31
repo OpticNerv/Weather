@@ -51,8 +51,8 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 								if(forecastTemps.length>0)
 									dataSets.push({
 											label: predictedTemps,
-											backgroundColor: "#99c2ff",
-											borderColor: "#4d94ff",
+											backgroundColor: "rgba(153, 194, 255, 0.2)",
+											borderColor: "rgba(77, 148, 255, 0.2)",
 											fill: false,
 											data: forecastTemps
 										});
