@@ -20,7 +20,7 @@ class Welcome extends CI_Controller {
 		'	<script src="'.$this->config->base_url().'js/jquery-ui/jquery-ui.js"></script>',
 		'	<link rel="stylesheet" href="'.$this->config->base_url().'js/jquery-ui/jquery-ui.css">',
 		'	<script>var baseUrl="'.$this->config->base_url().'"; var actualTempsLbl="'.
-		$this->lang->line("actual_temps").'"; var predictedTemps="'.$this->lang->line("forecast_temps").
+		$this->lang->line("actual_temps").'"; var predictedTempsLbl="'.$this->lang->line("forecast_temps").
 		'"; var noData="'.$this->lang->line("no_data").'"; var yLabel="'.$this->lang->line("y_label").'"; var xLabel="'.$this->lang->line("x_label").'";</script>');
 		$this->load->view("Header", array("extraScripts" => $extraScripts));
 		$this->load->view("StartPage",array("allCities" => $Cities->getAllCitiesWithWeatherData()));

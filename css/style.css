@@ -14,6 +14,14 @@
 	display:block;
 }
 
+#weatherResultContainer table
+{
+	width:50%;
+	display:table;
+	margin:30px auto;
+	text-align:center;
+}
+
 #citySelector { display:inline-block; margin-right:5px; width:100px; }
 
 #statsContainer label 

@@ -120,12 +120,12 @@ class Cities extends CI_Model
 				$condition = "cities_weather.type=0";
 			
 			if(is_numeric($minDate) && is_numeric($maxDate) && $minDate<$maxDate)
-				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%Y-%m-%dT%H:00') as parsed_timestamp   
+				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%Y-%m-%dT%H:00') as parsed_timestamp,FROM_UNIXTIME(cities_weather.timestamp,'%d-%m-%Y %H:00') as readable_date  
 				FROM cities_weather
 				WHERE city_id=$cityId AND $condition
 				AND cities_weather.timestamp>=".$this->db->escape($minDate)." AND cities_weather.timestamp<=".$this->db->escape($maxDate)." ORDER BY cities_weather.timestamp ASC");
 			else
-				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%Y-%m-%dT%H:00') as parsed_timestamp 
+				$query = $this->db->query("SELECT cities_weather.*,FROM_UNIXTIME(cities_weather.timestamp,'%Y-%m-%dT%H:00') as parsed_timestamp,FROM_UNIXTIME(cities_weather.timestamp,'%d-%m-%Y %H:00') as readable_date  
 				FROM cities_weather
 				WHERE city_id=$cityId AND $condition
 				AND cities_weather.timestamp>=UNIX_TIMESTAMP(CURDATE()) AND cities_weather.timestamp<=UNIX_TIMESTAMP(CURDATE() + INTERVAL 1 DAY) ORDER BY cities_weather.timestamp ASC");

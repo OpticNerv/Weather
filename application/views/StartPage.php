@@ -9,7 +9,7 @@
 <?php if($allCities) { ?> 
 <div style="float:left;width:100%;">
 	<div style="display:block;width:50%;margin:50px auto;">
-	<select id="citySelector" class="form-control" onchange="showWeatherStats(this.value,false,false,true);">
+	<select id="citySelector" style="width:100%;" class="form-control" onchange="showWeatherStats(this.value,false,false,true);">
 	<?php foreach($allCities as $city) { ?>
 		<option value="<?php echo $city->id;?>"><?php echo $city->city_name;?></option>
 	<?php } ?>
