@@ -13,10 +13,9 @@
 	<!-- REGISTRATION FORM -->
 	<form action="<?php echo $this->config->base_url();?>registerUser" method="post">
 		<div class="form-group">
-		<p>By registering at our website, you agree and allow of your personal data (name, surname and profile picture) to be stored
-		for purpose of distinguishing users at our website.</p>
-		<input type="checkbox" value=1 name="consent" /> I agree and allow usage of my personal data<br /><br />
-		<input type="submit" value="Register me!"/>
+		<p><?php echo $this->lang->line("consent_text");?></p>
+		<input type="checkbox" value=1 name="consent" /> <?php echo $this->lang->line("consent_desc");?><br /><br />
+		<input type="submit" value="<?php echo $this->lang->line("consent_btn_text");?>"/>
 		</div>
 	</form>
 	<hr>

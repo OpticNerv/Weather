@@ -14,29 +14,6 @@ $( document ).ready(function()
 	$("#endDate").datepicker('setDate', '<?php echo date("d-m-Y",time());?>');	
 });
 
-
-/**
-* JS Function searchCities, search for a cities by name
-* converts the input string to lower case, then capitalizes the first letter
-* @name: searchCities
-**/
-function searchCities(searchText)
-{
-	searchText = $("#searchText").val().toLowerCase();
-	
-	if(searchText!=null && searchText.length>0)
-	{
-		searchText = searchText.substring(0,1).toUpperCase()+searchText.substring(1);
-		
-		if($("label:contains('"+searchText+"')").length)
-		{
-			$("#updateUserForm").animate({
-				scrollTop: $("label:contains('"+searchText+"')").offset().top-210
-			}, 500);
-		}
-	}
-}
-
 /**
 * JS Function getUserProfileData, retrieves the users profile info
 * retrieves the users selected cities (if he has any) and marks them with checkboxes
@@ -65,7 +42,6 @@ function getUserProfileData(userId)
 						if(typeof result.allCities!="undefined" && result.allCities!=null && result.allCities.length>0)
 						{
 							user_view += '<h3><?php echo $this->lang->line('selected_cities');?></h3>';
-							user_view += '\r\n<input type="text" id="searchText" placeholder="<?php echo $this->lang->line('search_cities');?>">  <a href="#/" onclick="searchCities();">🔎</a>';
 							user_view += '<form class="well" id="updateUserForm" enctype="multipart/form-data" style="max-height: 300px;overflow: auto;">\r\n';
 							user_view += '\r\n<input type="hidden" name="userId" value="'+result.userData.id+'" />';
 							user_view += '<ul class="list-group checked-list-box">';

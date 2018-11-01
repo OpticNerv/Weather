@@ -18,6 +18,9 @@ $lang["no_cities_selected"] = "Izberite nekaj mest za svoj seznam";
 $lang["registration_error"] = "Med registracijo je prišlo do napake.";
 $lang["registration_deactivatedAcc"] = "Račun je bil deaktiviran, prijava ni moogoča.";
 $lang["registration_agreeToTerms"] = "Za registracijo, se morate strinjati s pogoji uporabe spletne strani.";
+$lang["consent_text"] = "Z registracijo se strinjate z obdelavo vaših osebnih podatkov(ime, priimek, email in profilna slika) v namene razlikovanja uporabnikov v sistemu.";
+$lang["consent_desc"] = "Strinjam se in dovoljujem uporabo mojih podatkov";
+$lang["consent_btn_text"] = "Registriraj me!";
 
 //adminpanel
 $lang["deactivated_user"] = "Deaktiviran uporabnik";

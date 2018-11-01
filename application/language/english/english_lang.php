@@ -18,6 +18,9 @@ $lang["no_cities_selected"] = "Please select some cities for your profile";
 $lang["registration_error"] = "A problem occured during registration";
 $lang["registration_deactivatedAcc"] = "This account was disabled. You won`t be able to log in.";
 $lang["registration_agreeToTerms"] = "In order to register you must agree to registration terms.";
+$lang["consent_text"] = "By registering at our website, you agree and allow of your personal data (name, surname, email and profile picture) to be stored for purpose of distinguishing users at our website.";
+$lang["consent_desc"] = "I agree and allow usage of my personal data";
+$lang["consent_btn_text"] = "Register me!";
 
 //adminpanel
 $lang["deactivated_user"] = "Deactivated user";

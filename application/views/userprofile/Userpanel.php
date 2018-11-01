@@ -17,6 +17,7 @@
 <script type="text/javascript">
 $( document ).ready(function() 
 {
+	/* init datepickers and load user profile */
 	$("#startDate").datepicker();
 	$("#endDate").datepicker();
 	$("#startDate").datepicker("option", "dateFormat", "dd-mm-yy");
@@ -55,7 +56,6 @@ function getUserProfileData()
 					if(typeof result.allCities!="undefined" && result.allCities!=null && result.allCities.length>0)
 					{
 						user_view += '\r\n<h3><?php echo $this->lang->line('selected_cities');?></h3>';
-						user_view += '\r\n<input type="text" id="searchText" placeholder="<?php echo $this->lang->line('search_cities');?>">  <a href="#/" onclick="searchCities();">🔎</a>';
 						user_view += '<form class="well" id="updateUserForm" enctype="multipart/form-data" style="max-height: 300px;overflow: auto;">\r\n';
 						user_view += '\r\n<input type="hidden" name="userId" value="'+result.userData.id+'" />';
 						user_view += '<ul class="list-group checked-list-box">';
