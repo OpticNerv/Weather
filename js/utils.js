@@ -157,7 +157,7 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 												if(minDifference==-1 || (currDiff<minDifference && currDiff>=0 && currDiff<=3))
 												{
 													minDifference = currDiff;
-													forecastTemp = forecastTemps[i].y;
+													forecastTemp = forecastTemps[j].y;
 												}
 											}
 											
