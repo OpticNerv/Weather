@@ -3,11 +3,9 @@
 
 <div class="col-sm-6">
 <div id="statsContainer"  style="float:left;width:100%;height:30px;">
-	<div style="display:block;float:left;">
 	<select id="citySelector" class="form-control"></select>
-	</div>
-	<input style="float:left;height:30px;margin-left:5px;margin-right:5px;" type="text" id="startDate" /><input style="float:left;height:30px;margin-left:5px;margin-right:5px;" type="text" id="endDate" />
-	<input style="float:left;height:30px;" id="forecast" type="checkbox" /><input style="float:left;height:30px;" type="button" value="Show meh!" onclick="showWeatherStats($('#citySelector').val(),$('#startDate').val(), $('#endDate').val(), $('#forecast').is(':checked'));" />
+	<input class="form-control"  type="text" id="startDate" /><input class="form-control" type="text" id="endDate" />
+	<label for="forecast"><input class="form-control" id="forecast" type="checkbox" /><?php echo $this->lang->line("show_forecast");?></label><input class="form-control" type="button" value="Show meh!" onclick="showWeatherStats($('#citySelector').val(),$('#startDate').val(), $('#endDate').val(), $('#forecast').is(':checked'));" />
 </div>	
 
 <div id="weatherResultContainer" style="float:left;width:100%;height:300px;">

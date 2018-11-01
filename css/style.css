@@ -13,3 +13,36 @@
 	margin:0 auto;
 	display:block;
 }
+
+#citySelector { display:inline-block; margin-right:5px; width:100px; }
+
+#statsContainer label 
+{ 
+	display:inline-block; 
+	width:100px; 
+	font-weight:normal;
+}
+
+#statsContainer input[type=text]
+{
+	width:100px;
+	height:33px;
+	margin-right:5px;
+	display:inline-block;
+}
+
+#statsContainer input[type=checkbox]
+{
+	width:20px;
+	height:33px;
+	margin-right:5px;
+	display:inline-block;
+	vertical-align:middle;
+}
+
+#statsContainer input[type=button]
+{
+	width:100px;
+	height:33px;
+	display:inline-block;
+}

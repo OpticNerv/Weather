@@ -35,4 +35,5 @@ $lang["actual_temps"] = "Measured temperatures";
 $lang["forecast_temps"] = "Predicted temperatures";
 $lang["y_label"] = "Degrees Celsius";
 $lang["x_label"] = "Date time";
+$lang["show_forecast"] = "Forecast";
 ?>

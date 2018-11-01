@@ -35,4 +35,5 @@ $lang["actual_temps"] = "Izmerjene temperature";
 $lang["forecast_temps"] = "Predvidene temperature";
 $lang["y_label"] = "Stopinje celzija";
 $lang["x_label"] = "Čas";
+$lang["show_forecast"] = "Napoved";
 ?>
