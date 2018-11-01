@@ -38,7 +38,11 @@ class Sync extends CI_Controller {
 					{
 						$result = $this->getCurrentWeatherData($cityBatch);
 						if($result)
-							$Cities->storeWeatherForecast($result,0);
+						{
+							$result = $Cities->storeWeatherForecast($result,0);
+							if(!$result)
+								echo "Error storing current weather data in database!";
+						}
 						
 						sleep(40); //sleep for 40 seconds
 					}
@@ -117,10 +121,16 @@ class Sync extends CI_Controller {
 								if(isset($response->cnt) && $response->cnt>1)
 									return $response;
 								else
+								{
+									echo "Empty/invalid response for current weather data";
 									return false;
+								}
 							}
 							else
+							{
+								echo "Empty/invalid response for current weather data";
 								return false;
+							}
 						}
 						catch(Exception $e) { echo "error retriving data"; return false; }
 					}
@@ -170,10 +180,16 @@ class Sync extends CI_Controller {
 							if(isset($response->cnt) && $response->cnt>1)
 								return $response;
 							else
+							{
+								echo "Empty/invalid response for forecast weather data";
 								return false;
+							}
 						}
 						else
+						{
+							echo "Empty/invalid response for forecast weather data";
 							return false;
+						}	
 					}
 					catch(Exception $e) { echo "error retriving data"; return false; }
 				}

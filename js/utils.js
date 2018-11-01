@@ -149,7 +149,7 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 											{
 												var currDiff = -1;	
 												/* select the most appropriate interval - the one with smallles tim difference */	
-												if(forecastTemps[i].timestamp<currentTimestamp)
+												if(forecastTemps[j].timestamp<currentTimestamp)
 													currDiff = (currentTimestamp-forecastTemps[j].timestamp)/3600;
 												else
 													currDiff = (forecastTemps[j].timestamp-currentTimestamp)/3600;
