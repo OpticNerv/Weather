@@ -101,9 +101,24 @@ class Sync extends CI_Controller {
 						$requestUrl = $this->config->item('owp_api_url')."group?id=".$requestUrl."&APPID=".$this->config->item('owp_api_key')."&units=metric";
 						try
 						{
-							$response = json_decode(file_get_contents($requestUrl));
-							if(isset($response->cnt) && $response->cnt>1)
-								return $response;
+							$ch = curl_init();
+							curl_setopt ($ch, CURLOPT_URL, $requestUrl);
+							curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+							$response = curl_exec($ch);
+							if (curl_errno($ch)) {
+								$response = "";
+							} else {
+							  curl_close($ch);
+							}
+					
+							if($response)
+							{
+								$response = json_decode($response);
+								if(isset($response->cnt) && $response->cnt>1)
+									return $response;
+								else
+									return false;
+							}
 							else
 								return false;
 						}
@@ -139,9 +154,24 @@ class Sync extends CI_Controller {
 					$requestUrl = $this->config->item('owp_api_url')."forecast?id=".$cityId."&APPID=".$this->config->item('owp_api_key')."&units=metric";
 					try
 					{
-						$response = json_decode(file_get_contents($requestUrl));
-						if(isset($response->cnt) && $response->cnt>1)
-							return $response;
+						$ch = curl_init();
+						curl_setopt ($ch, CURLOPT_URL, $requestUrl);
+						curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+						$response = curl_exec($ch);
+						if (curl_errno($ch)) {
+							$response = "";
+						} else {
+						  curl_close($ch);
+						}
+				
+						if($response)
+						{
+							$response = json_decode($response);
+							if(isset($response->cnt) && $response->cnt>1)
+								return $response;
+							else
+								return false;
+						}
 						else
 							return false;
 					}
