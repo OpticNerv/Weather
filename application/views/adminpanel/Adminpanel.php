@@ -3,6 +3,18 @@
 </style>
 
 <script type="text/javascript">
+$( document ).ready(function() 
+{
+	$("#startDate").datepicker();
+	$("#endDate").datepicker();
+	$("#startDate").datepicker("option", "dateFormat", "dd-mm-yy");
+	$("#endDate").datepicker("option", "dateFormat", "dd-mm-yy");
+	
+	$("#startDate").datepicker('setDate', '<?php echo date("d-m-Y",time());?>');
+	$("#endDate").datepicker('setDate', '<?php echo date("d-m-Y",time());?>');	
+});
+
+
 /**
 * JS Function searchCities, search for a cities by name
 * converts the input string to lower case, then capitalizes the first letter
@@ -138,7 +150,7 @@ $(document).on('submit', '#updateUserForm', function(e)
 
 <div class="container">
 
-<div class="col-sm-6" >
+<div class="col-sm-3" >
 <?php if($users && is_array($users) && count($users)>0){ foreach($users as $user) {?>
 	<div class="well" id="userCard-<?php echo $user->id;?>" onclick="getUserProfileData(<?php echo $user->id;?>);">
 		<?php if(isset($user->user_image) && filter_var($user->user_image, FILTER_VALIDATE_URL)) { ?><img style="height:100px;" src="<?php echo $user->user_image;?>" /><?php } ?>
@@ -147,10 +159,35 @@ $(document).on('submit', '#updateUserForm', function(e)
 	</div>
 	
 <?php }}?>
+
 </div>
 
 
-<div class="col-sm-6" id="userDetails" style="overflow-y:scroll;height:800px;display:none;border:1px solid #f5f5f5; border-radius:5px;"></div>
+<div class="col-sm-3" id="userDetails" style="overflow-y:scroll;height:800px;display:none;border:1px solid #f5f5f5; border-radius:5px;">
+
+</div>
+
+
+<div class="col-sm-6">
+	
+	<?php if($allCities) { ?> 
+	<div id="statsContainer"  style="float:left;width:100%;height:30px;">
+		<select id="citySelector" class="form-control">
+		<?php foreach($allCities as $city) { ?>
+		<option value="<?php echo $city->id;?>"><?php echo $city->city_name;?></option>
+		<?php } ?>
+		</select>
+		<input class="form-control"  type="text" id="startDate" /><input class="form-control" type="text" id="endDate" />
+		<label for="forecast"><input class="form-control" id="forecast" type="checkbox" /><?php echo $this->lang->line("show_forecast");?></label><input class="form-control" type="button" value="Show meh!" onclick="showWeatherStats($('#citySelector').val(),$('#startDate').val(), $('#endDate').val(), $('#forecast').is(':checked'));" />
+	</div>	
+
+	<div id="weatherResultContainer" style="float:left;width:100%;height:300px;">
+		<canvas id="canvas"></canvas>
+	</div>
+	
+	<?php } ?>
+	</div>
+</div>
 </div>
 	
 	
