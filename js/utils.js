@@ -11,6 +11,7 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 	if(typeof cityId!="undefined" && cityId!=null && cityId>0)
 	{
 		$("#resultsTable").remove();
+		$("#canvas").html("");
 		
 		try
 		{
@@ -175,8 +176,10 @@ function showWeatherStats(cityId, startDate=false, endDate=false, forecast=false
 							
 						}
 						else
-							$("#weatherResultContainer").text(noData);
+							$("#weatherResultContainer").html("<p>"+noData+"</p>");
 					}
+					else
+						$("#weatherResultContainer").html("<p>"+noData+"</p>");
 				}
 			});
 		}			
